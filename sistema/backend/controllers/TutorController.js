@@ -1,21 +1,28 @@
-import ClienteModel from '../models/TutorModel.js';
+import TutorModel from '../models/TutorModel.js';
 
 class TutorController {
-
-    // GET /api/clientes - Listar todos os clientes
     static async listarTodos(req, res) {
-        // TODO: Buscar todos os clientes no banco de dados
-        // TODO: Retornar a lista com status 200
-        const dados = await listarTodos();
-        res.json({ sucesso: true, dados });
+        try {
+            const tutores = await TutorModel.listarTodos();
+            res.status(200).json({ sucesso: true, dados: tutores });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ sucesso: false, mensagem: 'Erro ao listar tutores' });
+        }
     }
 
-    // POST /api/clientes - Cadastrar novo cliente
     static async criar(req, res) {
-        // TODO: Obter os dados do body → req.body
-        // TODO: Validar os campos obrigatórios (ex: nome, cpf_cnpj)
-        // TODO: Criar o cliente no banco de dados
-        // TODO: Retornar o cliente criado com status 201
+        try {
+            const { nome, telefone, email } = req.body;
+            if (!nome || !telefone) {
+                return res.status(400).json({ sucesso: false, mensagem: 'Nome e telefone são obrigatórios' });
+            }
+            const id = await TutorModel.criar({ nome, telefone, email });
+            res.status(201).json({ sucesso: true, mensagem: 'Tutor criado com sucesso', id });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ sucesso: false, mensagem: 'Erro ao criar tutor' });
+        }
     }
 }
 

@@ -1,37 +1,35 @@
-import { create, read, update, getConnection } from '../config/database.js';
+import { create, read, deleteRecord, getConnection } from '../config/database.js';
 
 class ConsultaModel {
-
-    // Buscar todos os clientes
-    static async listarTodos() {
-        // TODO: Implementar a busca de todos os clientes
-        // Dica: use a função read('clientes')
-        const connection = await getConnection()
-        const [rows] = await connection.execute(`
-                SELECT c.motivo AS consulta, d.nome_animal, d.tutor 
-                FROM consulta c 
-                join (select t.nome as tutor, a.nome as nome_animal from tutor t join animal a on t.id = a.tutor_id) d;
-            `)
-
-        return rows
-
+    static async listarTodas() {
+        const connection = await getConnection();
+        try {
+            const sql = `
+                SELECT 
+                    c.id, 
+                    c.data_hora, 
+                    c.motivo, 
+                    c.status, 
+                    a.nome as animal_nome, 
+                    t.nome as tutor_nome 
+                FROM consulta c
+                JOIN animal a ON c.animal_id = a.id
+                JOIN tutor t ON a.tutor_id = t.id
+                ORDER BY c.data_hora DESC
+            `;
+            const [rows] = await connection.execute(sql);
+            return rows;
+        } finally {
+            connection.release();
+        }
     }
 
-    // Criar novo cliente
     static async criar(dados) {
-        // TODO: Implementar a criação do cliente
-        // Dica: use a função create('clientes', dados)
-        //       ela retorna o ID do registro inserido
-
-        return await create('consulta', dados)
+        return await create('consulta', dados);
     }
 
-    // Excluir cliente
     static async excluir(id) {
-        // TODO: Implementar a exclusão do cliente
-        // Dica: use a função deleteRecord('clientes', `id_cliente = ${id}`)
-
-        return await deleteRecord('consulta', `id = ${id}`)
+        return await deleteRecord('consulta', `id = ${id}`);
     }
 }
 

@@ -5,9 +5,9 @@ import dotenv from 'dotenv';
 
 // Importar rotas
 import authRotas from './routes/authRotas.js';
-import clienteRotas from './routes/clienteRotas.js';
-import equipamentoRotas from './routes/equipamentoRotas.js';
-import emprestimoRotas from './routes/emprestimoRotas.js';
+import tutorRotas from './routes/tutorRotas.js';
+import animalRotas from './routes/animalRotas.js';
+import consultaRotas from './routes/consultaRotas.js';
 
 // Importar middlewares
 import { simpleLogMiddleware } from './middlewares/logMiddleware.js';
@@ -31,21 +31,21 @@ app.use(simpleLogMiddleware);
 
 // Rotas da API
 app.use('/api/auth', authRotas);
-app.use('/api/clientes', clienteRotas);
-app.use('/api/equipamentos', equipamentoRotas);
-app.use('/api/emprestimos', emprestimoRotas);
+app.use('/api/tutores', tutorRotas);
+app.use('/api/animais', animalRotas);
+app.use('/api/consultas', consultaRotas);
 
 // Rota raiz
 app.get('/', (req, res) => {
     res.json({
         sucesso: true,
-        mensagem: 'OfficeTech API - Sistema de Gestão de Empréstimos',
+        mensagem: 'VetFácil API - Sistema de Gestão Veterinária',
         versao: '1.0.0',
         rotas: {
             autenticacao: '/api/auth',
-            clientes: '/api/clientes',
-            equipamentos: '/api/equipamentos',
-            emprestimos: '/api/emprestimos',
+            tutores: '/api/tutores',
+            animais: '/api/animais',
+            consultas: '/api/consultas',
         }
     });
 });

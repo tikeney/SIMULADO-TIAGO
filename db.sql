@@ -10,11 +10,11 @@ CREATE DATABASE IF NOT EXISTS vetfacil
 USE vetfacil;
 
 -- --------------------------------------------
--- Tabela: Usuarios
+-- Tabela: usuarios
 -- --------------------------------------------
-CREATE TABLE Usuarios (
-    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-    nome_usuario VARCHAR(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
     login VARCHAR(50) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL
 );
@@ -22,7 +22,7 @@ CREATE TABLE Usuarios (
 -- --------------------------------------------
 -- Tabela: tutor
 -- --------------------------------------------
-CREATE TABLE tutor (
+CREATE TABLE IF NOT EXISTS tutor (
   id         INT          NOT NULL AUTO_INCREMENT,
   nome       VARCHAR(100) NOT NULL,
   telefone   VARCHAR(20)  NOT NULL,
@@ -31,13 +31,10 @@ CREATE TABLE tutor (
   PRIMARY KEY (id)
 );
 
-
-
-
 -- --------------------------------------------
 -- Tabela: animal
 -- --------------------------------------------
-CREATE TABLE animal (
+CREATE TABLE IF NOT EXISTS animal (
   id         INT          NOT NULL AUTO_INCREMENT,
   tutor_id   INT          NOT NULL,
   nome       VARCHAR(100) NOT NULL,
@@ -51,12 +48,10 @@ CREATE TABLE animal (
     ON UPDATE CASCADE
 );
 
-
-
 -- --------------------------------------------
 -- Tabela: consulta
 -- --------------------------------------------
-CREATE TABLE consulta (
+CREATE TABLE IF NOT EXISTS consulta (
   id          INT          NOT NULL AUTO_INCREMENT,
   animal_id   INT          NOT NULL,
   data_hora   DATETIME     NOT NULL,
@@ -70,16 +65,14 @@ CREATE TABLE consulta (
     ON UPDATE CASCADE
 );
 
-
-
 -- ============================================
 --  Dados de exemplo
 -- ============================================
 
 -- Usuário admin
--- senha: admin123  (hash bcrypt gerado com 10 rounds)
-INSERT INTO usuario (nome, email, senha_hash) VALUES
-  ('Administrador', 'admin@vetfacil.com', '$2y$10$hKiWThHF3HoU7YT/ZtQmk./DjmcaAOn3Dg9IaXLBW55LswGI/QA4m');
+-- senha: admin123 (hash bcrypt)
+INSERT INTO usuarios (nome, login, senha) VALUES
+  ('Administrador', 'admin', '$2b$10$hKiWThHF3HoU7YT/ZtQmk./DjmcaAOn3Dg9IaXLBW55LswGI/QA4m');
 
 INSERT INTO tutor (nome, telefone, email) VALUES
   ('Ana Souza',    '(11) 91234-5678', 'ana@email.com'),
