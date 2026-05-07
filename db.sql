@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS consulta (
 
 -- Usuário admin
 -- senha: admin123 (hash bcrypt)
-INSERT INTO usuarios (nome, login, senha) VALUES
+INSERT INTO usuarios (nome_usuario, login, senha) VALUES
   ('Administrador', 'admin', '$2b$10$hKiWThHF3HoU7YT/ZtQmk./DjmcaAOn3Dg9IaXLBW55LswGI/QA4m');
 
 INSERT INTO tutor (nome, telefone, email) VALUES
